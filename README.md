@@ -137,11 +137,6 @@ audio_router/
 - 更好的设备状态展示
 - 更广的输出格式兼容
 
-## 文档
-
-- [产品方案](docs/产品方案.md)
-- [技术方案](docs/技术方案.md)
-
 ## 贡献
 
 欢迎提交 Issue 和 Pull Request。
