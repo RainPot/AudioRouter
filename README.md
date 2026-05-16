@@ -1,6 +1,8 @@
 # Audio Router
 
-<img src="docs/images/audio-router-screenshot.png" alt="Audio Router 界面截图" width="297">
+<p align="center">
+  <img src="docs/images/audio-router-screenshot.png" alt="Audio Router 界面截图" width="297">
+</p>
 
 一个面向 macOS 的多设备音频输出菜单栏应用。
 
