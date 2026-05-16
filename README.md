@@ -53,7 +53,7 @@ zsh scripts/package_app.sh
 打包产物在：
 
 - `.build/dist/Audio Router.app`
-- `.build/dist/AudioRouter-0.1.0-macos.dmg`
+- `.build/dist/AudioRouter-0.1.1-macos.dmg`
 
 本地调试启动：
 
@@ -92,9 +92,9 @@ zsh scripts/package_app.sh
 5. 创建并推送版本 tag：
 
 ```bash
-git tag v0.1.0
+git tag v0.1.1
 git push origin main
-git push origin v0.1.0
+git push origin v0.1.1
 ```
 
 推送 tag 后，GitHub Actions 会在 `macos-26` runner 上运行测试、生成 DMG，并创建对应 GitHub Release。这里固定 `macos-26` 是为了匹配项目使用的 Swift tools 6.2，避免 `macos-latest` 后续迁移导致工具链变化。

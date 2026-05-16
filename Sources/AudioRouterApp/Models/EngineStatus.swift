@@ -19,7 +19,7 @@ struct EngineStatus: Equatable {
 
     var summaryText: String {
         if isRunning {
-            return "运行中 · 设备 \(selectedDeviceCount) · 回调 \(callbackCount)"
+            return "运行中 · 设备 \(selectedDeviceCount)"
         }
         return selectedDeviceCount > 0 ? "待启动 · 设备 \(selectedDeviceCount)" : "未启动"
     }
