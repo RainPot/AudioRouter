@@ -12,6 +12,7 @@ RESOURCES_DIR="$APP_DIR/Contents/Resources"
 DMG_ROOT="$DIST_DIR/dmg-root"
 VERSION="$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$INFO_PLIST")"
 DMG_PATH="$DIST_DIR/AudioRouter-$VERSION-macos.dmg"
+ICON_PATH="$ROOT_DIR/Resources/AppIcon.icns"
 
 cd "$ROOT_DIR"
 
@@ -24,11 +25,16 @@ if [[ ! -x "$BINARY_PATH" ]]; then
     exit 1
 fi
 
+if [[ ! -f "$ICON_PATH" ]]; then
+    swift "$ROOT_DIR/scripts/generate_app_icon.swift"
+fi
+
 rm -rf "$APP_DIR" "$DMG_ROOT" "$DMG_PATH"
 mkdir -p "$MACOS_DIR" "$RESOURCES_DIR" "$DMG_ROOT"
 
 cp "$INFO_PLIST" "$APP_DIR/Contents/Info.plist"
 cp "$BINARY_PATH" "$MACOS_DIR/$PRODUCT_NAME"
+cp "$ICON_PATH" "$RESOURCES_DIR/AppIcon.icns"
 
 if [[ -n "${CODESIGN_IDENTITY:-}" ]]; then
     codesign --force --deep --options runtime --sign "$CODESIGN_IDENTITY" "$APP_DIR"

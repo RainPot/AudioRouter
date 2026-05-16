@@ -8,6 +8,8 @@
     <string>Audio Router</string>
     <key>CFBundleExecutable</key>
     <string>AudioRouterApp</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
     <key>CFBundleIdentifier</key>
     <string>com.zhangyu.audio-router</string>
     <key>CFBundleInfoDictionaryVersion</key>
