@@ -1,5 +1,7 @@
 # Audio Router
 
+![Audio Router 界面截图](docs/images/audio-router-screenshot.png)
+
 一个面向 macOS 的多设备音频输出菜单栏应用。
 
 `Audio Router` 的目标是让系统正在播放的音频同时输出到多个物理设备，并支持每个设备单独调节音量，重点场景包括：
