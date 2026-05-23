@@ -65,31 +65,8 @@ struct MainPanelView: View {
                     viewModel.onRefresh()
                 }
                 Spacer()
-                Button(viewModel.isDebugExpanded ? "收起调试" : "调试") {
-                    viewModel.toggleDebugExpanded()
-                }
                 Button("退出") {
                     viewModel.onQuit()
-                }
-            }
-
-            if viewModel.isDebugExpanded {
-                Divider()
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("调试探针")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    HStack {
-                        Button("探测 Tap") {
-                            viewModel.onProbeTap()
-                        }
-                        Button("探测 Aggregate") {
-                            viewModel.onProbeAggregate()
-                        }
-                        Button("探测 Capture") {
-                            viewModel.onProbeCapture()
-                        }
-                    }
                 }
             }
         }

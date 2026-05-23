@@ -43,7 +43,7 @@ enum RoutingMode: String, Codable, CaseIterable {
         case .stableSync:
             return "稳定同步"
         case .lowBuffer:
-            return "低缓冲"
+            return "低延迟"
         }
     }
 }

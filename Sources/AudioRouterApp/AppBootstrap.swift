@@ -11,18 +11,12 @@ final class AppBootstrap {
     private let menuBarController: MenuBarController
     private let popoverController: PopoverController
     private let viewModel: AppViewModel
-    private let tapProbeService: ProcessTapProbeService
-    private let aggregateProbeService: AggregateDeviceProbeService
-    private let captureProbeService: AudioCaptureProbeService
     private var cancellables: Set<AnyCancellable> = []
 
     init(
         deviceService: AudioDeviceService = AudioDeviceService(),
         settingsStore: SettingsStore? = nil,
-        routingEngine: AudioRoutingEngine? = nil,
-        tapProbeService: ProcessTapProbeService = ProcessTapProbeService(),
-        aggregateProbeService: AggregateDeviceProbeService = AggregateDeviceProbeService(),
-        captureProbeService: AudioCaptureProbeService = AudioCaptureProbeService()
+        routingEngine: AudioRoutingEngine? = nil
     ) {
         self.deviceService = deviceService
         self.settingsStore = settingsStore ?? SettingsStore(fileURL: Self.defaultSettingsURL())
@@ -38,9 +32,6 @@ final class AppBootstrap {
         self.routingEngine = resolvedEngine
         self.routingCoordinator = RoutingCoordinator(settings: settings, engine: resolvedEngine)
         self.menuBarController = MenuBarController()
-        self.tapProbeService = tapProbeService
-        self.aggregateProbeService = aggregateProbeService
-        self.captureProbeService = captureProbeService
         self.viewModel = AppViewModel(
             settings: settings,
             onToggleSelection: { _ in },
@@ -48,9 +39,6 @@ final class AppBootstrap {
             onMuteToggle: { _ in },
             onModeChange: { _ in },
             onRefresh: {},
-            onProbeTap: {},
-            onProbeAggregate: {},
-            onProbeCapture: {},
             onQuit: {}
         )
         self.popoverController = PopoverController(
@@ -98,15 +86,6 @@ final class AppBootstrap {
         viewModel.onRefresh = { [weak self] in
             self?.refreshDevices()
         }
-        viewModel.onProbeTap = { [weak self] in
-            self?.probeTap()
-        }
-        viewModel.onProbeAggregate = { [weak self] in
-            self?.probeAggregate()
-        }
-        viewModel.onProbeCapture = { [weak self] in
-            self?.probeCapture()
-        }
         viewModel.onQuit = {
             NSApp.terminate(nil)
         }
@@ -153,46 +132,6 @@ final class AppBootstrap {
             viewModel.setErrorMessage("")
         } catch {
             viewModel.setErrorMessage("刷新设备失败：\(error.localizedDescription)")
-        }
-    }
-
-    private func probeTap() {
-        do {
-            let message = try tapProbeService.probeGlobalStereoTap()
-            viewModel.setTapProbeMessage(message)
-            viewModel.setAggregateProbeMessage(nil)
-            viewModel.setErrorMessage("")
-        } catch {
-            viewModel.setTapProbeMessage(nil)
-            viewModel.setErrorMessage("Tap 探测失败：\(error.localizedDescription)")
-        }
-    }
-
-    private func probeAggregate() {
-        do {
-            let message = try aggregateProbeService.probeTapAggregateChain()
-            viewModel.setAggregateProbeMessage(message)
-            viewModel.setErrorMessage("")
-        } catch {
-            viewModel.setAggregateProbeMessage(nil)
-            viewModel.setErrorMessage("Aggregate 探测失败：\(error.localizedDescription)")
-        }
-    }
-
-    private func probeCapture() {
-        Task { @MainActor [weak self] in
-            guard let self else {
-                return
-            }
-
-            do {
-                let message = try await captureProbeService.probeCaptureCallback()
-                viewModel.setCaptureProbeMessage(message)
-                viewModel.setErrorMessage("")
-            } catch {
-                viewModel.setCaptureProbeMessage(nil)
-                viewModel.setErrorMessage("Capture 探测失败：\(error.localizedDescription)")
-            }
         }
     }
 

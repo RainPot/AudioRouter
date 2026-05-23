@@ -8,16 +8,12 @@ final class AppViewModel: ObservableObject {
     @Published private(set) var tapProbeMessage: String?
     @Published private(set) var aggregateProbeMessage: String?
     @Published private(set) var captureProbeMessage: String?
-    @Published private(set) var isDebugExpanded: Bool
 
     var onToggleSelection: (String) -> Void
     var onVolumeChange: (String, Double) -> Void
     var onMuteToggle: (String) -> Void
     var onModeChange: (RoutingMode) -> Void
     var onRefresh: () -> Void
-    var onProbeTap: () -> Void
-    var onProbeAggregate: () -> Void
-    var onProbeCapture: () -> Void
     var onQuit: () -> Void
 
     init(
@@ -27,9 +23,6 @@ final class AppViewModel: ObservableObject {
         onMuteToggle: @escaping (String) -> Void,
         onModeChange: @escaping (RoutingMode) -> Void,
         onRefresh: @escaping () -> Void,
-        onProbeTap: @escaping () -> Void,
-        onProbeAggregate: @escaping () -> Void,
-        onProbeCapture: @escaping () -> Void,
         onQuit: @escaping () -> Void
     ) {
         self.snapshot = RoutingSnapshot(mode: settings.preferredMode, devices: [], errorMessage: nil)
@@ -37,15 +30,11 @@ final class AppViewModel: ObservableObject {
         self.tapProbeMessage = nil
         self.aggregateProbeMessage = nil
         self.captureProbeMessage = nil
-        self.isDebugExpanded = false
         self.onToggleSelection = onToggleSelection
         self.onVolumeChange = onVolumeChange
         self.onMuteToggle = onMuteToggle
         self.onModeChange = onModeChange
         self.onRefresh = onRefresh
-        self.onProbeTap = onProbeTap
-        self.onProbeAggregate = onProbeAggregate
-        self.onProbeCapture = onProbeCapture
         self.onQuit = onQuit
     }
 
@@ -68,9 +57,5 @@ final class AppViewModel: ObservableObject {
 
     func setCaptureProbeMessage(_ message: String?) {
         captureProbeMessage = message
-    }
-
-    func toggleDebugExpanded() {
-        isDebugExpanded.toggle()
     }
 }
